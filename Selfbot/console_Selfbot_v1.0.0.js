@@ -1,4 +1,4 @@
- const token = "USER_TOKEN";
+const token = "USER_TOKEN";
 const userId = "USER_ID";
 
 const ws = new WebSocket("wss://gateway.discord.gg/?v=9&encoding=json");
