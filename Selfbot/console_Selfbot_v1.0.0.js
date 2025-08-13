@@ -1,10 +1,11 @@
-const token = "USER_TOKEN";
+ const token = "USER_TOKEN";
 const userId = "USER_ID";
 
 const ws = new WebSocket("wss://gateway.discord.gg/?v=9&encoding=json");
 
-let deleteMode = false;
+let deleteMode = false;  // Tracks whether auto-delete mode is ON
 
+// Map of bad words to replacements (all lowercase keys)
 const badWordsMap = {
   "fuck": "fuge",
   "shit": "shoot",
@@ -54,6 +55,9 @@ function replaceBadWords(text) {
   }).join('');
 }
 
+
+// --- RATE LIMITER QUEUE SETUP ---
+
 const fetchQueue = [];
 let isProcessingQueue = false;
 
@@ -82,6 +86,8 @@ function rateLimitedFetch(url, options) {
     processQueue();
   });
 }
+
+// --- WEBSOCKET HANDLERS ---
 
 ws.onmessage = ({ data }) => {
   const { t, s, op, d } = JSON.parse(data);
@@ -124,10 +130,10 @@ ws.onmessage = ({ data }) => {
             body: JSON.stringify({ content: replacedContent })
           });
         } else {
-          console.error("Failed to delete message with bad words.");
+          console.error("❌ Failed to delete message with bad words.");
         }
       });
-      return;
+      return; // Stop further processing for this original message
     }
 
     // Handle commands
@@ -140,7 +146,7 @@ ws.onmessage = ({ data }) => {
       rateLimitedFetch(`https://discord.com/api/v9/channels/${d.channel_id}/messages`, {
         method: "POST",
         headers: { "Authorization": token, "Content-Type": "application/json" },
-        body: JSON.stringify({ content: "derp" })
+        body: JSON.stringify({ content: "✅ Auto-delete mode ENABLED." })
       });
       return;
     }
@@ -169,7 +175,8 @@ ws.onmessage = ({ data }) => {
       "-g": { reply: "https://guns.lol/boopakuma", deleteReply: false },
       "-s": { reply: "https://r2.guns.lol/c7d7e032-57b3-4060-9415-da6a69f8b7de.mp3", deleteReply: false },
       "-p": { reply: "croczen is my #1 pookie :3", deleteReply: false },
-      "-d": { reply: "This message will self-delete immediately!", deleteReply: true }
+      "-d": { reply: "This message will self-delete immediately!", deleteReply: true },
+      "-code": { reply: "https://github.com/ScribblrBot/DiscordStuffs/blob/main/Selfbot/console_Selfbot_v1.0.0.js", deleteReply: false }
     };
 
     if (content in commands) {
@@ -191,7 +198,7 @@ ws.onmessage = ({ data }) => {
               console.error("❌ Failed to send reply message");
               return;
             }
-            console.log(`Deleted command and sent reply: ${reply}`);
+            console.log(`✅ Deleted command and sent reply: ${reply}`);
 
             if (deleteReply) {
               postRes.json().then(msg => {
@@ -200,21 +207,22 @@ ws.onmessage = ({ data }) => {
                   headers: { "Authorization": token, "Content-Type": "application/json" }
                 }).then(delReplyRes => {
                   if (delReplyRes.ok) {
-                    console.log("Deleted the reply message (hidden message).");
+                    console.log("✅ Deleted the reply message (hidden message).");
                   } else {
-                    console.error("Failed to delete reply message.");
+                    console.error("❌ Failed to delete reply message.");
                   }
                 });
               });
             }
           });
         } else {
-          console.error("Failed to delete original command message");
+          console.error("❌ Failed to delete original command message");
         }
       });
       return;
     }
 
+    // Auto-delete mode for all other messages
     if (deleteMode) {
       if (!(content === "-deleteon" || content === "-deleteoff" || content in commands)) {
         rateLimitedFetch(`https://discord.com/api/v9/channels/${d.channel_id}/messages/${d.id}`, {
