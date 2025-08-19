@@ -1,0 +1,20 @@
+{
+  "BadgeVault": [
+    {
+      "name": "Vectaria",
+      "badge": "https://vectaria.org/about.png"
+    },
+    {
+      "name": "Kirka",
+      "badge": "https://client.kirka.io/static/KirkaClient.png"
+    },
+    {
+      "name": "cryzen",
+      "badge": "https://tricko.pro/icons/games/cryzen.png"
+    },
+    {
+      "name": "MineFun",
+      "badge": "https://pbs.twimg.com/profile_images/1927315532107198464/2dsr-jXq_400x400.jpg"
+    }
+  ]
+}
