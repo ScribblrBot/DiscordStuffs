@@ -32,7 +32,7 @@ interface BadgeCache {
     expires: number;
 }
 
-const API_URL = "https://scribblrbot.github.io/DiscordStuffs/";
+const API_URL = "https://raw.githubusercontent.com/ScribblrBot/DiscordStuffs/refs/heads/main/";
 
 const cache = new Map<string, BadgeCache>();
 const EXPIRES = 1000 * 60 * 15;
@@ -40,7 +40,7 @@ const EXPIRES = 1000 * 60 * 15;
 const fetchBadges = (id: string): BadgeCache["badges"] | undefined => {
     const cachedValue = cache.get(id);
     if (!cache.has(id) || (cachedValue && cachedValue.expires < Date.now())) {
-        fetch(`${API_URL}Badges/${id}`)
+        fetch(`${API_URL}Badges/${id}.json`)
             .then(res => res.json() as Promise<BadgeCache["badges"]>)
             .then(body => {
                 cache.set(id, { badges: body, expires: Date.now() + EXPIRES });
