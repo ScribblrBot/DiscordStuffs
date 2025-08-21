@@ -1,0 +1,24 @@
+{
+  "BadgeVault": [
+    {
+      "name": "Supports Commands",
+      "badge": "https://cdn.discordapp.com/badge-icons/6f9e37f9029ff57aef81db857890005e.png"
+    },
+    {
+      "name": "Uses AutoMod",
+      "badge": "https://cdn.discordapp.com/badge-icons/f2459b691ac7453ed6039bbcfaccbfcd.png"
+    },
+    {
+      "name": "op",
+      "badge": "https://raw.githubusercontent.com/mezotv/discord-badges/3206c853064bcdc5f33b4380b0572f948a18c3b5/assets/special/OriginalPoster.svg"
+    },
+    {
+      "name": "ai",
+      "badge": "https://raw.githubusercontent.com/mezotv/discord-badges/3206c853064bcdc5f33b4380b0572f948a18c3b5/assets/special/LightAi.svg"
+    },
+    {
+      "name": "opal",
+      "badge": "https://raw.githubusercontent.com/mezotv/discord-badges/refs/heads/main/assets/subscriptions/badges/opal.png"
+    }
+  ]
+}
