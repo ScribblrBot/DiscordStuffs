@@ -1,12 +1,16 @@
 {
   "BadgeVault": [
     {
-      "name": "Cmd",
-      "badge": "https://badges.vencord.dev/badges/206533472662192131/1-fdd682eab3b8fd26d613ceebd819b51455dcdcb3.gif"
+      "name": "Vencord Contributor",
+      "badge": "https://cdn.discordapp.com/emojis/1092089799109775453.png"
     },
     {
-      "name": "Rawr",
-      "badge": "https://cdn.discordapp.com/emojis/1202536147084115968.webp?size=44&animated=true"
+      "name": "ObsidianClient",
+      "badge": "https://cdn.discordapp.com/emojis/1384728410504564969.webp"
+    },
+    {
+      "name": "Staff TRUST",
+      "badge": "https://cdn.discordapp.com/emojis/1322888510126030900.webp"
     }
   ]
 }
