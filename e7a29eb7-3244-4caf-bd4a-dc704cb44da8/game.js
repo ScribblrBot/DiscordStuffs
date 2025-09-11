@@ -94,7 +94,7 @@ const createScene = () => {
     
     const crosshair = createCrosshair();
 
-    BABYLON.SceneLoader.ImportMesh("", "/glbs/", "4bb3a8d88abff1e7bb7ce34b87c64494.glb", scene,
+    BABYLON.SceneLoader.ImportMesh("", "DiscordStuffs/glbs/", "4bb3a8d88abff1e7bb7ce34b87c64494.glb", scene,
         (meshes, ps, skels, anims) => {
             meshes.forEach(m => m.isVisible = false);
 
@@ -109,7 +109,7 @@ const createScene = () => {
         (scene, err) => console.error("Failed to load body GLB:", err)
     );
 
-    BABYLON.SceneLoader.ImportMesh("", "/glbs/", "ae1db540a529ec318de726647102b250.glb", scene,
+    BABYLON.SceneLoader.ImportMesh("", "DiscordStuffs/glbs/", "ae1db540a529ec318de726647102b250.glb", scene,
         (meshes) => {
             const armsRoot = new BABYLON.TransformNode("armsRoot", scene);
             meshes.forEach(m => m.parent = armsRoot);
@@ -121,7 +121,7 @@ const createScene = () => {
             console.log("Arms loaded");
 
             // Apply James texture to arms
-            const jamesTexture = new BABYLON.Texture("/textures/James-texture.webp", scene);
+            const jamesTexture = new BABYLON.Texture("DiscordStuffs/textures/James-texture.webp", scene);
             meshes.forEach(mesh => {
                 if (mesh.material) {
                     mesh.material.diffuseTexture = jamesTexture;
