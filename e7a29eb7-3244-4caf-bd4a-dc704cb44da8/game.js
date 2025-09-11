@@ -7,12 +7,10 @@ const createScene = () => {
     scene.gravity = new BABYLON.Vector3(0, -0.5, 0);
     scene.collisionsEnabled = true;
 
-    // Lights
     new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0,1,0), scene);
     const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1,-2,-1), scene);
     dirLight.position = new BABYLON.Vector3(10,10,10);
 
-    // Ground
     const ground = BABYLON.MeshBuilder.CreateGround("ground", { width:100, height:100 }, scene);
     ground.checkCollisions = true;
     const groundMat = new BABYLON.StandardMaterial("groundMat", scene);
@@ -21,13 +19,11 @@ const createScene = () => {
     groundMat.diffuseTexture.vScale = 20;
     ground.material = groundMat;
 
-    // Player capsule (collision)
     const player = BABYLON.MeshBuilder.CreateCapsule("player", { height:2, radius:0.5 }, scene);
     player.position = new BABYLON.Vector3(0,1,0);
     player.checkCollisions = true;
     player.isVisible = false;
 
-    // FPS camera
     const camera = new BABYLON.UniversalCamera("FPSCamera", player.position.add(new BABYLON.Vector3(0,1.6,0)), scene);
     camera.attachControl(canvas, true);
     camera.applyGravity = true;
@@ -37,13 +33,11 @@ const createScene = () => {
     camera.inertia = 0.3;
     camera.minZ = 0.1;
 
-    // Pointer lock
     canvas.addEventListener("click", () => {
         canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
         if (canvas.requestPointerLock) canvas.requestPointerLock();
     });
 
-    // Input map
     const inputMap = {};
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, (evt) => {
@@ -53,7 +47,6 @@ const createScene = () => {
         inputMap[evt.sourceEvent.key.toLowerCase()] = false;
     }));
 
-    // Mouse look (inverted) - lower sensitivity
     const sensitivity = 0.001;
     document.addEventListener("mousemove", (e) => {
         if (document.pointerLockElement === canvas) {
@@ -63,7 +56,6 @@ const createScene = () => {
         }
     });
 
-    // Movement variables
     const normalSpeed = 0.05;
     const shiftSpeed = 0.03;
     const jumpForce = 0.25;
@@ -74,13 +66,10 @@ const createScene = () => {
     const crouchHeight = 1.2;
     let isSquatting = false;
     let canJump = true;
-
-    // Animations
     let squatAnim = null;
     let squatWalkAnim = null;
     let standAnim = null;
 
-    // Create crosshair
     function createCrosshair() {
         const crosshair = document.createElement("div");
         crosshair.style.position = "absolute";
@@ -103,10 +92,8 @@ const createScene = () => {
         return crosshair;
     }
     
-    // Create the crosshair
     const crosshair = createCrosshair();
 
-    // Load player body GLB
     BABYLON.SceneLoader.ImportMesh("", "/glbs/", "4bb3a8d88abff1e7bb7ce34b87c64494.glb", scene,
         (meshes, ps, skels, anims) => {
             meshes.forEach(m => m.isVisible = false);
@@ -122,7 +109,6 @@ const createScene = () => {
         (scene, err) => console.error("Failed to load body GLB:", err)
     );
 
-    // Load arms GLB
     BABYLON.SceneLoader.ImportMesh("", "/glbs/", "ae1db540a529ec318de726647102b250.glb", scene,
         (meshes) => {
             const armsRoot = new BABYLON.TransformNode("armsRoot", scene);
@@ -146,7 +132,6 @@ const createScene = () => {
         (scene, err) => console.error("Failed to load arms GLB:", err)
     );
 
-    // FPS loop
     scene.onBeforeRenderObservable.add(() => {
         const forward = camera.getDirection(BABYLON.Axis.Z).normalize();
         const right = camera.getDirection(BABYLON.Axis.X).normalize();
